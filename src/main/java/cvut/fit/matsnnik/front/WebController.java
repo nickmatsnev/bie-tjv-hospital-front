@@ -1,8 +1,11 @@
 package cvut.fit.matsnnik.front;
 
 import cvut.fit.matsnnik.front.clients.DoctorClient;
+import cvut.fit.matsnnik.front.clients.PatientClient;
 import cvut.fit.matsnnik.front.models.DoctorLoginModel;
 import cvut.fit.matsnnik.front.models.DoctorModel;
+import cvut.fit.matsnnik.front.models.PatientLoginModel;
+import cvut.fit.matsnnik.front.models.PatientModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,22 +18,30 @@ import org.springframework.web.server.ResponseStatusException;
 @Controller
 public class WebController {
  private final DoctorClient doctorClient;
+ private final PatientClient patientClient;
  DoctorModel currentDoctor;
-
-    public WebController(DoctorClient doctorClient) {
+ PatientModel currentPatient;
+    public WebController(DoctorClient doctorClient, PatientClient patientClient) {
+        this.patientClient = patientClient;
         this.doctorClient = doctorClient;
     }
 
     @GetMapping("")
     public String emptyUrl(Model model){
-        if(currentDoctor == null){
-            return "redirect:/login";
-        } else{
+        if(currentDoctor == null && currentPatient == null){
+            return "redirect:/plogin";
+        } else if (currentDoctor != null && currentPatient == null){
             return "redirect/:dhome";
+        } else if(currentDoctor == null){
+            return "redirect/:phome";
+        }  else{
+            currentPatient = null;
+            currentDoctor = null;
+            return "redirect/:plogin";
         }
     }
 
-    @PostMapping("/login")
+    @PostMapping("/dlogin")
     public String enterLoginDoctor(Model model, @ModelAttribute DoctorLoginModel doctorLoginModel) throws Exception {
         currentDoctor = doctorClient.get(doctorLoginModel.getDid()).block();
         try{
@@ -41,10 +52,10 @@ public class WebController {
         }
     }
 
-    @GetMapping("/login")
+    @GetMapping("/dlogin")
     public String enterRender(Model model){
         model.addAttribute("doctorLoginModel", new DoctorLoginModel());
-        return "login";
+        return "dlogin";
     }
     @ExceptionHandler(Exception.class)
     public String handleAllException(Exception ex) {
@@ -53,16 +64,43 @@ public class WebController {
     @GetMapping("/dhome")
     public String addDoctorHome(Model model){
         if(currentDoctor == null){
-            return "redirect:/login";
+            return "redirect:/dlogin";
         }
         model.addAttribute("doctorname", currentDoctor);
         return "dhome";
     }
-    @GetMapping("/logout") /// mapping to log out from the system
+    @GetMapping("/dlogout") /// mapping to log out from the system
     public String doctorLogout() {
         currentDoctor = null;
-        return "redirect:/login";
+        return "redirect:/dlogin";
+    }
+    @GetMapping("/phome")
+    public String addPatientHome(Model model){
+        if(currentPatient == null){
+            return "redirect:/plogin";
+        }
+        model.addAttribute("patient", currentPatient);
+        return "phome";
+    }
+    @GetMapping("/plogout") /// mapping to log out from the system
+    public String patientLogout() {
+        currentDoctor = null;
+        return "redirect:/plogin";
+    }
+    @PostMapping("/plogin")
+    public String enterLoginPatient(Model model, @ModelAttribute PatientLoginModel patientLoginModel) throws Exception {
+        currentPatient = patientClient.get(patientLoginModel.getEmail()).block();
+        try{
+            model.addAttribute("patientLoginModel", patientClient.login(patientLoginModel));
+            return "redirect:/phome";
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
-
+    @GetMapping("/plogin")
+    public String enterRenderPatient(Model model){
+        model.addAttribute("patientLoginModel", new PatientLoginModel());
+        return "plogin";
+    }
 }

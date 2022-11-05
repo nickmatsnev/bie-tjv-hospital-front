@@ -27,7 +27,7 @@ public class DoctorClient {
                 .retrieve()
                 .onStatus(
                         HttpStatus.BAD_REQUEST::equals,
-                        responce -> responce.bodyToMono(String.class).map(Exception::new)
+                        response -> response.bodyToMono(String.class).map(Exception::new)
                 )
                 .bodyToMono(String.class);
     }
