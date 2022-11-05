@@ -103,4 +103,39 @@ public class WebController {
         model.addAttribute("patientLoginModel", new PatientLoginModel());
         return "plogin";
     }
+    @GetMapping("/pprofile") /// ьфззштп ещ пуе зкщашду зфпу
+    public String getProfileRenderPatient(Model model) {
+        if (currentPatient == null){
+            return "redirect:/plogin";
+        }
+        model.addAttribute("patient", currentPatient);
+        return "pprofile";
+    }
+    @GetMapping("/dprofile") /// ьфззштп ещ пуе зкщашду зфпу
+    public String getProfileRenderDoctor(Model model) {
+        if (currentDoctor == null){
+            return "redirect:/plogin";
+        }
+        model.addAttribute("doctor", currentDoctor);
+        return "dprofile";
+    }
+    @GetMapping("/pabout") /// ьфззштп ещ пуе зкщашду зфпу
+    public String getAboutRenderPatient(Model model) {
+        if (currentPatient == null){
+            return "redirect:/plogin";
+        }
+        model.addAttribute("patient", currentPatient);
+        return "pabout";
+    }
+    @GetMapping("/dabout") /// ьфззштп ещ пуе зкщашду зфпу
+    public String getAboutRenderDoctor(Model model) {
+        if (currentDoctor == null){
+            return "redirect:/dlogin";
+        }
+        model.addAttribute("doctor", currentDoctor);
+        return "dabout";
+    }
+
+
+
 }
