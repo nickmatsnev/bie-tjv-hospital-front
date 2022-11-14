@@ -3,11 +3,13 @@ package cvut.fit.matsnnik.front.clients;
 import cvut.fit.matsnnik.front.models.PatientLoginModel;
 import cvut.fit.matsnnik.front.models.PatientModel;
 import cvut.fit.matsnnik.front.models.PatientRegistrationModel;
+import cvut.fit.matsnnik.front.models.SessionModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -51,4 +53,33 @@ public class PatientClient {
                 .retrieve()
                 .bodyToMono(PatientModel.class);
     }
+    public Mono<PatientModel> getById(int pid){
+        return webClient.get()
+                .uri("patients/{pid}", pid)
+                .retrieve()
+                .bodyToMono(PatientModel.class);
+    }
+
+    public Iterable<PatientModel> getAll(){
+        return webClient.get()
+                .uri("patients/all")
+                .retrieve()
+                .bodyToFlux(PatientModel.class).toIterable();
+    }
+
+    public Iterable<SessionModel> getSessionsByPid(int id){
+        return webClient.get()
+                .uri("/sessions/patient/{id}", id)
+                .retrieve()
+                .bodyToFlux(SessionModel.class).toIterable();
+    }
+
+    public Iterable<SessionModel> getSessionsByDid(int id){
+        return webClient.get()
+                .uri("/sessions/doctor/{id}", id)
+                .retrieve()
+                .bodyToFlux(SessionModel.class).toIterable();
+    }
+
+
 }
