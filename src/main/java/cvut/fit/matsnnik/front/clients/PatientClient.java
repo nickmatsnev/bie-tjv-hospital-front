@@ -1,9 +1,6 @@
 package cvut.fit.matsnnik.front.clients;
 
-import cvut.fit.matsnnik.front.models.PatientLoginModel;
-import cvut.fit.matsnnik.front.models.PatientModel;
-import cvut.fit.matsnnik.front.models.PatientRegistrationModel;
-import cvut.fit.matsnnik.front.models.SessionModel;
+import cvut.fit.matsnnik.front.models.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,11 +19,19 @@ public class PatientClient {
     }
 
     public Mono<String> register(PatientRegistrationModel newPatient){
+        PatientDTO patientDto = new PatientDTO(newPatient.getPid(),
+                newPatient.getEmail(),
+                newPatient.getName(),
+                newPatient.getSurname(),
+                newPatient.getAge(),
+                newPatient.getPassword());
+
+        System.out.println( newPatient.getName());
         return webClient.post()
-                .uri("patients/register")
+                .uri("/patients/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .bodyValue(newPatient)
+                .bodyValue(patientDto)
                 .retrieve()
                 .onStatus(
                         HttpStatus.BAD_REQUEST::equals,

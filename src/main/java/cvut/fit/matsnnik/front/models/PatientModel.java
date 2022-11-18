@@ -7,12 +7,12 @@ public class PatientModel {
     public PatientModel() {
     }
 
-    public PatientModel(int pid, int age, String name, String surname, String email, String password) {
+    public PatientModel(int pid, String email, String name, String surname, int age, String password) {
         this.pid = pid;
-        this.age = age;
+        this.email = email;
         this.name = name;
         this.surname = surname;
-        this.email = email;
+        this.age = age;
         this.password = password;
     }
 

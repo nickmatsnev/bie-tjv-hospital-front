@@ -160,9 +160,25 @@ public class WebController {
             return "dregister";
         }
 
-        model.addAttribute("doctorRegistrationSubmit", doctorClient.register(doctorRegistrationModel));
+        model.addAttribute("doctorRegistrationSubmit", doctorClient.register(doctorRegistrationModel).block());
         model.addAttribute("doctorRegistrationModel", new DoctorRegistrationModel());
         return "dregister";
+    }
+
+    @GetMapping("/pregistration") /// get mapping for the registration page
+    public String addPatientRender(Model model) {
+        /// attribute that creates empty RegistrationModel
+        model.addAttribute("patientRegistrationDto", new PatientRegistrationModel());
+        return "pregister";
+    }
+
+    @PostMapping("/pregistration") /// post mapping to send the registering user credentials to the sever
+    public String addPatientSubmit(Model model, @ModelAttribute PatientRegistrationModel patientRegistrationModel) {
+
+        model.addAttribute("patientRegistrationSubmit", patientClient.register(patientRegistrationModel).block());
+        System.out.println(patientRegistrationModel.getName());
+        model.addAttribute("patientRegistrationDto", new PatientRegistrationModel());
+        return "pregister";
     }
     @GetMapping("/create-session") /// get mapping to get html for location creation page
     public String addSessionRender(Model model) {

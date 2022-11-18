@@ -1,28 +1,20 @@
 package cvut.fit.matsnnik.front.models;
 
-public class PatientRegistrationModel {
-    private Integer pid, age;
-    private String email, name, surname, password, rPassword;
+public class PatientDTO {
+    private Integer pid;
+    private String email;
+    private String name;
+    private String surname;
+    private Integer age;
+    private String password;
 
-    public PatientRegistrationModel() {
-    }
-
-    public PatientRegistrationModel(Integer pid, Integer age, String email, String name, String surname, String password, String rPassword) {
+    public PatientDTO(Integer pid, String email, String name, String surname, Integer age, String password) {
         this.pid = pid;
-        this.age = age;
         this.email = email;
         this.name = name;
         this.surname = surname;
+        this.age = age;
         this.password = password;
-        this.rPassword = rPassword;
-    }
-
-    public String getrPassword() {
-        return rPassword;
-    }
-
-    public void setrPassword(String rPassword) {
-        this.rPassword = rPassword;
     }
 
     public Integer getPid() {
@@ -31,14 +23,6 @@ public class PatientRegistrationModel {
 
     public void setPid(Integer pid) {
         this.pid = pid;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public String getEmail() {
@@ -65,6 +49,14 @@ public class PatientRegistrationModel {
         this.surname = surname;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -72,4 +64,5 @@ public class PatientRegistrationModel {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
