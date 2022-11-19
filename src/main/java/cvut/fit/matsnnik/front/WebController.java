@@ -41,6 +41,9 @@ public class WebController {
     public String enterLoginDoctor(Model model, @ModelAttribute DoctorLoginModel doctorLoginModel) throws Exception {
         currentDoctor = doctorClient.get(doctorLoginModel.getDid()).block();
         try{
+            if(!doctorLoginModel.getPassword().equals(currentDoctor.getPassword())){
+                return "redirect:/dlogin";
+            }
             model.addAttribute("doctorLoginModel", doctorClient.login(doctorLoginModel));
             return "redirect:/dhome";
         } catch (IllegalArgumentException e) {
@@ -90,6 +93,9 @@ public class WebController {
     public String enterLoginPatient(Model model, @ModelAttribute PatientLoginModel patientLoginModel) throws Exception {
         currentPatient = patientClient.get(patientLoginModel.getEmail()).block();
         try{
+            if(!patientLoginModel.getPassword().equals(currentPatient.getPassword())){
+                return "redirect:/plogin";
+            }
             model.addAttribute("patientLoginModel", patientClient.login(patientLoginModel));
             return "redirect:/phome";
         } catch (IllegalArgumentException e) {
@@ -99,12 +105,14 @@ public class WebController {
 
     @GetMapping("/plogin")
     public String enterRenderPatient(Model model){
+
         model.addAttribute("patientLoginModel", new PatientLoginModel());
         return "plogin";
     }
     @GetMapping("/pprofile") /// ьфззштп ещ пуе зкщашду зфпу
     public String getProfileRenderPatient(Model model) {
         if (currentPatient == null){
+
             return "redirect:/plogin";
         }
         model.addAttribute("patient", currentPatient);
