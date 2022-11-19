@@ -41,6 +41,9 @@ public class WebController {
     public String enterLoginDoctor(Model model, @ModelAttribute DoctorLoginModel doctorLoginModel) throws Exception {
         currentDoctor = doctorClient.get(doctorLoginModel.getDid()).block();
         try{
+            if(!doctorLoginModel.getPassword().equals(currentDoctor.getPassword())){
+                return "redirect:/dlogin";
+            }
             model.addAttribute("doctorLoginModel", doctorClient.login(doctorLoginModel));
             return "redirect:/dhome";
         } catch (IllegalArgumentException e) {
