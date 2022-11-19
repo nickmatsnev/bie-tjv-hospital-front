@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -72,18 +71,18 @@ public class PatientClient {
                 .bodyToFlux(PatientModel.class).toIterable();
     }
 
-    public Iterable<SessionModel> getSessionsByPid(int id){
+    public Iterable<SessionActualDTO> getSessionsByPid(int id){
         return webClient.get()
                 .uri("/sessions/patient/{id}", id)
                 .retrieve()
-                .bodyToFlux(SessionModel.class).toIterable();
+                .bodyToFlux(SessionActualDTO.class).toIterable();
     }
 
-    public Iterable<SessionModel> getSessionsByDid(int id){
+    public Iterable<SessionActualDTO> getSessionsByDid(int id){
         return webClient.get()
                 .uri("/sessions/doctor/{id}", id)
                 .retrieve()
-                .bodyToFlux(SessionModel.class).toIterable();
+                .bodyToFlux(SessionActualDTO.class).toIterable();
     }
 
 

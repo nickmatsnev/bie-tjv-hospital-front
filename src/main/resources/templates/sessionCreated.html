@@ -48,7 +48,7 @@
       <div class="card bg-white mt-4">
         <div class="card-body p-5">
 
-          <h1 th:text = "${sessionModel}"></h1>
+          <h1 th:text = "${sessionModel} + 'is created!'"></h1>
 
           <form method="get" action="/create-session">
             <div><button class="btn btn-secondary" id ="signupButton" type="submit">go back</button></div>
