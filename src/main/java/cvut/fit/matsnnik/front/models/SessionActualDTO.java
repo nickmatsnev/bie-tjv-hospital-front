@@ -1,10 +1,11 @@
 package cvut.fit.matsnnik.front.models;
 
+import java.sql.Time;
 import java.util.Objects;
 
 public class SessionActualDTO {
-    private Long plannedStart;
-    private Long plannedEnd;
+    private String plannedStart;
+    private String plannedEnd;
     private String name;
     private Long doctor;
     private String patient;
@@ -12,7 +13,7 @@ public class SessionActualDTO {
     public SessionActualDTO() {
     }
 
-    public SessionActualDTO(Long plannedStart, Long plannedEnd, String name, Long doctor, String patient) {
+    public SessionActualDTO(String plannedStart, String plannedEnd, String name, Long doctor, String patient) {
         this.plannedStart = plannedStart;
         this.plannedEnd = plannedEnd;
         this.name = name;
@@ -20,19 +21,19 @@ public class SessionActualDTO {
         this.patient = patient;
     }
 
-    public Long getPlannedStart() {
+    public String getPlannedStart() {
         return plannedStart;
     }
 
-    public void setPlannedStart(Long plannedStart) {
+    public void setPlannedStart(String plannedStart) {
         this.plannedStart = plannedStart;
     }
 
-    public Long getPlannedEnd() {
+    public String getPlannedEnd() {
         return plannedEnd;
     }
 
-    public void setPlannedEnd(Long plannedEnd) {
+    public void setPlannedEnd(String plannedEnd) {
         this.plannedEnd = plannedEnd;
     }
 

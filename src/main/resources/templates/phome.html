@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>HospitalSystem</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="p-3 m-0 border-0 bd-example">
+
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/phome"><span style="color: green;">H</span>S P</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/phome">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/pprofile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/pabout">About developer</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+            <div th:text = "'Welcome to HospitalSystem, ' + ${patient.name}"></div>
+          </span>
+            <form class="d-flex" role="search">
+                <a class="btn btn-outline-success" href="/plogout">Log out</a>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container mt-4">
+    <div class="card">
+
+        <div class="card-body">
+            <h5 class="card-title">Profile</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Doctor ID:</b>
+                <div id="did" th:text="${patient.pid} "></div>
+            </li>
+            <li class="list-group-item"><b>Name:</b>
+                <div id="name" th:text="${patient.name} "></div>
+            </li>
+
+            <li class="list-group-item"><b>Surname:</b>
+                <div id="surname" th:text="${patient.surname}"></div>
+            </li>
+
+            <li class="list-group-item"><b>Age:</b>
+                <div id="dtype" th:text="${patient.age}"></div>
+            </li>
+            <li class="list-group-item"><b>Email:</b>
+                <div id="dtype" th:text="${patient.email}"></div>
+            </li>
+        </ul>
+
+    </div>
+</div>
+<div class="container overflow-hidden text-center mt-4">
+    <div class="row gy-5">
+        <div class="container">
+            <input type="text"  class="form-control"  placeholder="Search.." id="myInput" onkeyup="myFunction()">
+            <table class="table" id="eventTable">
+                <thead>
+                <td id="snameh">Session Name</td>
+                <td id="sdateh">Session planned start Time</td>
+                <td id="sdate1h">Session planned end Time</td>
+                <td id="spatienth">Doctor</td>
+                </thead>
+                <tbody>
+                <tr th:each="sess: ${sessions}">
+                    <td id ="sname" th:text="${sess.name}"></td>
+                    <td id ="stimes1" th:text="${#dates.format(new java.util.Date(sess.plannedStart))}"></td>
+                    <td id ="stimee2" th:text="${#dates.format(new java.util.Date(sess.plannedEnd))}"></td>
+                    <td><div>
+                        <form action="#" method="get" th:action="@{/get-one-doctor/{id}(id = ${sess.doctor})}" th:object="${sess}">
+                            <div><button class="btn btn-primary btn-sm" type="submit">View</button></div>
+                        </form>
+                    </div></td>
+
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+              integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+              crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

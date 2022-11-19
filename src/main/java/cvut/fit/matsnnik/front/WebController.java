@@ -109,7 +109,7 @@ public class WebController {
         model.addAttribute("patientLoginModel", new PatientLoginModel());
         return "plogin";
     }
-    @GetMapping("/pprofile") /// ьфззштп ещ пуе зкщашду зфпу
+    @GetMapping("/pprofile") ///
     public String getProfileRenderPatient(Model model) {
         if (currentPatient == null){
 
@@ -118,7 +118,7 @@ public class WebController {
         model.addAttribute("patient", currentPatient);
         return "pprofile";
     }
-    @GetMapping("/dprofile") /// ьфззштп ещ пуе зкщашду зфпу
+    @GetMapping("/dprofile") ///
     public String getProfileRenderDoctor(Model model) {
         if (currentDoctor == null){
             return "redirect:/dlogin";
