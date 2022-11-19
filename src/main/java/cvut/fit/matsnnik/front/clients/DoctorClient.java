@@ -68,6 +68,7 @@ public class DoctorClient {
     public Iterable<SessionActualDTO> getSessionsByDid(Integer id){
         return webClient.get()
                 .uri("sessions/doctor/{id}", id)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .onStatus(
                         HttpStatus.BAD_REQUEST::equals,

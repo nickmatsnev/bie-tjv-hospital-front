@@ -3,17 +3,17 @@ package cvut.fit.matsnnik.front.models;
 import java.sql.Time;
 import java.util.Objects;
 
-public class SessionActualDTO {
+public class SessionWTime {
     private String plannedStart;
     private String plannedEnd;
     private String name;
     private Long doctor;
     private String patient;
 
-    public SessionActualDTO() {
+    public SessionWTime() {
     }
 
-    public SessionActualDTO(String plannedStart, String plannedEnd, String name, Long doctor, String patient) {
+    public SessionWTime(String plannedStart, String plannedEnd, String name, Long doctor, String patient) {
         this.plannedStart = plannedStart;
         this.plannedEnd = plannedEnd;
         this.name = name;
