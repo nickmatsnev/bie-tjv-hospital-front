@@ -205,7 +205,7 @@ public class WebController {
         return "sessionCreated";
     }
     @GetMapping("/get-one-patient/{id}") /// mapping to open patient details
-    public String getOneEvent(Model model, @ModelAttribute PatientModel patientModel, @PathVariable("id") int id) {
+    public String getOnePatient(Model model, @ModelAttribute PatientModel patientModel, @PathVariable("id") int id) {
         if (currentDoctor == null){
             return "redirect:/dlogin";
         }
@@ -214,6 +214,19 @@ public class WebController {
         model.addAttribute("details", patientClient.getById(id).block());
 
         return "sessionDetails";
+    }
+
+    @GetMapping("/get-one-doctor/{id}") /// mapping to open patient details
+    public String getOneDoctor(Model model, @ModelAttribute DoctorModel doctorModel, @PathVariable("id") int id) {
+        if (currentPatient == null){
+            return "redirect:/plogin";
+        }
+        model.addAttribute("patient", currentPatient);
+
+        /// getting the event model from the server
+        model.addAttribute("details", doctorClient.get(id).block());
+
+        return "showPatient";
     }
 
 
