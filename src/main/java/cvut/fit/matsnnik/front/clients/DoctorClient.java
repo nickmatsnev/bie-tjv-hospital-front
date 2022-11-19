@@ -57,15 +57,15 @@ public class DoctorClient {
                 .bodyToMono(DoctorModel.class);
     }
 
-    public Flux<SessionModel> getSessionsByPid(int id){
+    public Flux<SessionActualDTO> getSessionsByPid(int id){
         return webClient.get()
                 .uri("/sessions/patient/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToFlux(SessionModel.class);
+                .bodyToFlux(SessionActualDTO.class);
     }
 
-    public Iterable<SessionModel> getSessionsByDid(Integer id){
+    public Iterable<SessionActualDTO> getSessionsByDid(Integer id){
         return webClient.get()
                 .uri("sessions/doctor/{id}", id)
                 .retrieve()
@@ -73,15 +73,16 @@ public class DoctorClient {
                         HttpStatus.BAD_REQUEST::equals,
                         response -> response.bodyToMono(String.class).map(Exception::new)
                 )
-                .bodyToFlux(SessionModel.class).toIterable();
+                .bodyToFlux(SessionActualDTO.class).toIterable();
     }
 
-    public Mono<String> createSession(SessionModel sessionModel){
+    public Mono<String> createSession(SessionActualDTO sessionActualDTO){
+        System.out.println("sessions patient when sent to server " + sessionActualDTO.getPatient());
         return webClient.post()
                 .uri("/sessions/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .bodyValue(sessionModel)
+                .bodyValue(sessionActualDTO)
                 .retrieve()
                 .onStatus(
                         HttpStatus.BAD_REQUEST::equals,

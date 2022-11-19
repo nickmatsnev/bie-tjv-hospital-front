@@ -113,7 +113,7 @@ public class WebController {
     @GetMapping("/dprofile") /// ьфззштп ещ пуе зкщашду зфпу
     public String getProfileRenderDoctor(Model model) {
         if (currentDoctor == null){
-            return "redirect:/plogin";
+            return "redirect:/dlogin";
         }
         model.addAttribute("doctor", currentDoctor);
         return "dprofile";
@@ -174,7 +174,19 @@ public class WebController {
 
     @PostMapping("/pregistration") /// post mapping to send the registering user credentials to the sever
     public String addPatientSubmit(Model model, @ModelAttribute PatientRegistrationModel patientRegistrationModel) {
+        /// if the password and password verification are not hte same throws error in the http
+        if (!Objects.equals(patientRegistrationModel.getPassword(), patientRegistrationModel.getrPassword())){
+            model.addAttribute("patientRegistrationSubmit", "Passwords don't match");
+            model.addAttribute("patientRegistrationDto", new PatientRegistrationModel());
+            return "pregister";
+        }
 
+        if (patientRegistrationModel.getPassword().length()<8)
+        {
+            model.addAttribute("patientRegistrationSubmit", "Password should be at least 8 characters");
+            model.addAttribute("patientRegistrationDto", new PatientRegistrationModel());
+            return "pregister";
+        }
         model.addAttribute("patientRegistrationSubmit", patientClient.register(patientRegistrationModel).block());
         System.out.println(patientRegistrationModel.getName());
         model.addAttribute("patientRegistrationDto", new PatientRegistrationModel());
@@ -187,20 +199,20 @@ public class WebController {
         }
         model.addAttribute("doctorname", currentDoctor);
         /// create a new Location Model to fill it in
-        model.addAttribute("sessionModel", new SessionModel());
+        model.addAttribute("sessionModel", new SessionActualDTO());
         model.addAttribute("patients", patientClient.getAll());
         return "createSession";
     }
 
 
     @PostMapping("/create-session") /// post mapping to pass the location model to the server
-    public String addSessionSubmit(Model model, @ModelAttribute SessionModel sessionModel) {
+    public String addSessionSubmit(Model model, @ModelAttribute SessionActualDTO sessionActualDTO) {
         if (currentDoctor == null){
             return "redirect:/dlogin";
         }
         model.addAttribute("doctorname", currentDoctor);
         /// passing the model to the createLocation in UserClient
-        model.addAttribute("sessionModel", doctorClient.createSession(sessionModel).block());
+        model.addAttribute("sessionModel", doctorClient.createSession(sessionActualDTO).block());
         model.addAttribute("patients", patientClient.getAll());
         return "sessionCreated";
     }

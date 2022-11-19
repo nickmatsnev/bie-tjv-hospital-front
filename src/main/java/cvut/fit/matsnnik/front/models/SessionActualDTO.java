@@ -2,17 +2,17 @@ package cvut.fit.matsnnik.front.models;
 
 import java.util.Objects;
 
-public class SessionModel {
+public class SessionActualDTO {
     private Long plannedStart;
     private Long plannedEnd;
     private String name;
     private Long doctor;
-    private Long patient;
+    private String patient;
 
-    public SessionModel() {
+    public SessionActualDTO() {
     }
 
-    public SessionModel(Long plannedStart, Long plannedEnd, String name, Long doctor, Long patient) {
+    public SessionActualDTO(Long plannedStart, Long plannedEnd, String name, Long doctor, String patient) {
         this.plannedStart = plannedStart;
         this.plannedEnd = plannedEnd;
         this.name = name;
@@ -52,25 +52,12 @@ public class SessionModel {
         this.doctor = doctor;
     }
 
-    public Long getPatient() {
+    public String getPatient() {
         return patient;
     }
 
-    public void setPatient(Long patient) {
+    public void setPatient(String patient) {
         this.patient = patient;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SessionModel that = (SessionModel) o;
-        return Objects.equals(plannedStart, that.plannedStart) && Objects.equals(plannedEnd, that.plannedEnd) && Objects.equals(name, that.name) && Objects.equals(doctor, that.doctor) && Objects.equals(patient, that.patient);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(plannedStart, plannedEnd, name, doctor, patient);
     }
 
 }
