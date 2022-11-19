@@ -9,7 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Objects;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class WebController {
@@ -65,8 +68,29 @@ public class WebController {
         if(currentDoctor == null){
             return "redirect:/dlogin";
         }
+        Iterable<SessionActualDTO> sessions = doctorClient.getSessionsByDid(currentDoctor.getDid());
+        List<SessionActualDTO> sessionsWTime = new ArrayList<>();
+        for(SessionActualDTO session: sessions){
+            // we get it as string longs, i.e. '1002020'
+            Long startL = Long.parseLong(session.getPlannedStart());
+            Long endL = Long.parseLong(session.getPlannedEnd());
+            Date startDate = new Date(startL);
+            Date endDate = new Date(endL);
+            DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
+            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+            String startDateFormatted = formatter.format(startDate);
+            String endDateFormatted = formatter.format(endDate);
+            sessionsWTime.add(new SessionActualDTO(
+                    startDateFormatted,
+                    endDateFormatted,
+                    session.getName(),
+                    session.getDoctor(),
+                    session.getPatient()
+            ));
+        }
+
         model.addAttribute("doctorname", currentDoctor);
-        model.addAttribute("sessions", doctorClient.getSessionsByDid(currentDoctor.getDid()));
+        model.addAttribute("sessions", sessionsWTime);
         model.addAttribute("allPatients", patientClient.getAll());
         return "dhome";
     }
@@ -80,8 +104,29 @@ public class WebController {
         if(currentPatient == null){
             return "redirect:/plogin";
         }
+        Iterable<SessionActualDTO> sessions = patientClient.getSessionsByPid(currentPatient.getPid());
+        List<SessionActualDTO> sessionsWTime = new ArrayList<>();
+        for(SessionActualDTO session: sessions){
+            // we get it as string longs, i.e. '1002020'
+            Long startL = Long.parseLong(session.getPlannedStart());
+            Long endL = Long.parseLong(session.getPlannedEnd());
+            Date startDate = new Date(startL);
+            Date endDate = new Date(endL);
+            DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
+            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+            String startDateFormatted = formatter.format(startDate);
+            String endDateFormatted = formatter.format(endDate);
+            sessionsWTime.add(new SessionActualDTO(
+                    startDateFormatted,
+                    endDateFormatted,
+                    session.getName(),
+                    session.getDoctor(),
+                    session.getPatient()
+            ));
+        }
+
         model.addAttribute("patient", currentPatient);
-        model.addAttribute("sessions", patientClient.getSessionsByPid(currentPatient.getPid()));
+        model.addAttribute("sessions", sessionsWTime);
         return "phome";
     }
     @GetMapping("/plogout") /// mapping to log out from the system

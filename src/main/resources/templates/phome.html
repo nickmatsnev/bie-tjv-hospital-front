@@ -79,8 +79,8 @@
                 <tbody>
                 <tr th:each="sess: ${sessions}">
                     <td id ="sname" th:text="${sess.name}"></td>
-                    <td id ="stimes1" th:text="${#dates.format(new java.util.Date(sess.plannedStart))}"></td>
-                    <td id ="stimee2" th:text="${#dates.format(new java.util.Date(sess.plannedEnd))}"></td>
+                    <td id ="stimes1" th:text="${sess.plannedStart}"></td>
+                    <td id ="stimee2" th:text="${sess.plannedEnd}"></td>
                     <td><div>
                         <form action="#" method="get" th:action="@{/get-one-doctor/{id}(id = ${sess.doctor})}" th:object="${sess}">
                             <div><button class="btn btn-primary btn-sm" type="submit">View</button></div>
