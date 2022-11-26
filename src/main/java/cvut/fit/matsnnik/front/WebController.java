@@ -293,7 +293,40 @@ public class WebController {
 
         return "showPatient";
     }
+    @GetMapping("/get-one-session/{id}") /// mapping to open patient details
+    public String getOneSession(Model model, @ModelAttribute SessionActualDTO sessionActualDTO, @PathVariable("id") int id) {
+        if (currentDoctor == null){
+            return "redirect:/dlogin";
+        }
+        model.addAttribute("sessionCurrent", doctorClient.getSessionById(id).block());
+        model.addAttribute("sessionModel", new SessionActualDTO());
+        model.addAttribute("doctorname", currentDoctor);
 
+        return "editSession";
+    }
+    @GetMapping("/get-one-session-name/{doctor}/{name}") /// mapping to open patient details
+    public String getOneSessionByDoctorAndName(Model model, @ModelAttribute SessionActualDTO sessionActualDTO, @PathVariable("doctor") int doctor,@PathVariable("name") String name) {
+        if (currentDoctor == null){
+            return "redirect:/dlogin";
+        }
+        model.addAttribute("sessionCurrent", doctorClient.getSessionByDoctorAndName(doctor, name).block());
+        model.addAttribute("sessionModel", new SessionActualDTO());
+        model.addAttribute("doctorname", currentDoctor);
+
+        return "editSession";
+    }
+    @PostMapping("/get-one-session-name/{doctor}/{name}") /// mapping to open patient details
+    public String putOneSession(Model model, @ModelAttribute SessionActualDTO sessionActualDTO, @PathVariable("doctor") int doctor,@PathVariable("name") String name) {
+        if (currentDoctor == null){
+            return "redirect:/dlogin";
+        }
+        model.addAttribute("sessionCurrent", doctorClient.getSessionByDoctorAndName(doctor, name).block());
+
+        model.addAttribute("sessionModel", doctorClient.updateSession(doctor, name, sessionActualDTO).block());
+        model.addAttribute("doctorname", currentDoctor);
+
+        return "sessionUpdated";
+    }
 
 
 }

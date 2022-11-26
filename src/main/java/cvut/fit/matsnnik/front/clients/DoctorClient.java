@@ -91,4 +91,32 @@ public class DoctorClient {
                 )
                 .bodyToMono(String.class);
     }
+
+    public Mono<SessionActualDTO> getSessionById(Integer id){
+        return webClient.get()
+                .uri("sessions/session/{id}", id)
+                .retrieve()
+                .bodyToMono(SessionActualDTO.class);
+    }
+    public Mono<SessionActualDTO> getSessionByDoctorAndName(Integer doctor, String name){
+        return webClient.get()
+                .uri("sessions/session/name/{doctor}/{name}", doctor, name)
+                .retrieve()
+                .bodyToMono(SessionActualDTO.class);
+    }
+    public Mono<String> updateSession(Integer doctor, String name, SessionActualDTO sessionActualDTO){
+        System.out.println("sessions patient when sent to server to update " + sessionActualDTO.getPatient());
+        System.out.println("sessions name when sent to server to update from url : " + name);
+        return webClient.post()
+                .uri("sessions/session/name/{doctor}/{name}", doctor, name)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(sessionActualDTO)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+    }
 }

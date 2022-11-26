@@ -48,11 +48,9 @@
       <div class="card bg-white mt-4">
         <div class="card-body p-5">
 
-          <h1 th:text = "${sessionModel} + ' is created!'"></h1>
+          <h1 th:text = "${sessionModel} + ' is updated!'"></h1>
 
-          <form method="get" action="/create-session">
-            <div><button class="btn btn-secondary" id ="signupButton" type="submit">go back</button></div>
-          </form>
+            <div><a href="/dhome" class="btn btn-secondary" id ="signupButton" >go back</a></div>
         </div>
       </div>
     </div>
