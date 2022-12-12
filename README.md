@@ -1,4 +1,4 @@
-# Hospital System
+# Hospital System - front end
 ## FIT CTU BIE-TJV 2022 semester project,
 ### by Nikita Matsnev
 
@@ -26,14 +26,8 @@ I use relations of doctors and patients to hospital to get the list of available
 I will create an ability for patients to request sessions with the available doctors at the specific time based on the requested specialization using JPQL.
 
 ### 1.3. Complex business processes
-#### 1.3.1. Provide fun statistics
-Show the doctor with the biggest amount of unique visitors;
-Show the doctor with the biggest amount of sessions;
-Show the patient with the biggest variety of doctors with regard to their specialization.
-#### 1.3.2. Handle the end of the session
-Once the session is finished, its status must be changed, as well as the actual start and end times will be updated. Also doctor and patient entities have increase by 1 in the number of operations.
-#### 1.4.2 Patient leaves the hospital to another
-Patient's log will be transferred to another hospital, his upcoming sessions shall be terminated, doctors will not have this user in available patients anymore, patient cannot choose previous doctors to request appointment anymore.
+#### 1.3.1. Doctor can switch a patient in a session which has not happened yet
+Doctor will update the session, so the session will be updated as well as the patients' sessions will be changed. 
 
 
 ### 1.4. Server
@@ -74,3 +68,4 @@ PostgresSQL will be used, I have already created a schema. It has two many-to-ma
 * [Official Gradle documentation](https://docs.gradle.org)
 ## 4. Test
 junit tests
+
