@@ -10,7 +10,7 @@ public class SessionActualDTO {
     private Long doctor;
     private String patient;
 
-    public SessionActualDTO() {
+    public  SessionActualDTO() {
     }
 
     public SessionActualDTO(String plannedStart, String plannedEnd, String name, Long doctor, String patient) {
