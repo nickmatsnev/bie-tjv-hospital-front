@@ -69,25 +69,8 @@ public class WebController {
             return "redirect:/dlogin";
         }
         Iterable<SessionActualDTO> sessions = doctorClient.getSessionsByDid(currentDoctor.getDid());
-        List<SessionActualDTO> sessionsWTime = new ArrayList<>();
-        for(SessionActualDTO session: sessions){
-            // we get it as string longs, i.e. '1002020'
-            Long startL = Long.parseLong(session.getPlannedStart());
-            Long endL = Long.parseLong(session.getPlannedEnd());
-            Date startDate = new Date(startL);
-            Date endDate = new Date(endL);
-            DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
-            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-            String startDateFormatted = formatter.format(startDate);
-            String endDateFormatted = formatter.format(endDate);
-            sessionsWTime.add(new SessionActualDTO(
-                    startDateFormatted,
-                    endDateFormatted,
-                    session.getName(),
-                    session.getDoctor(),
-                    session.getPatient()
-            ));
-        }
+        StringedLongToString(sessions);
+        List<SessionActualDTO> sessionsWTime = StringedLongToString(sessions);
 
         model.addAttribute("doctorname", currentDoctor);
         model.addAttribute("sessions", sessionsWTime);
@@ -105,6 +88,14 @@ public class WebController {
             return "redirect:/plogin";
         }
         Iterable<SessionActualDTO> sessions = patientClient.getSessionsByPid(currentPatient.getPid());
+        List<SessionActualDTO> sessionsWTime = StringedLongToString(sessions);
+
+        model.addAttribute("patient", currentPatient);
+        model.addAttribute("sessions", sessionsWTime);
+        return "phome";
+    }
+
+    private List<SessionActualDTO> StringedLongToString(Iterable<SessionActualDTO> sessions) {
         List<SessionActualDTO> sessionsWTime = new ArrayList<>();
         for(SessionActualDTO session: sessions){
             // we get it as string longs, i.e. '1002020'
@@ -124,11 +115,9 @@ public class WebController {
                     session.getPatient()
             ));
         }
-
-        model.addAttribute("patient", currentPatient);
-        model.addAttribute("sessions", sessionsWTime);
-        return "phome";
+        return sessionsWTime;
     }
+
     @GetMapping("/plogout") /// mapping to log out from the system
     public String patientLogout() {
         currentDoctor = null;
@@ -281,7 +270,7 @@ public class WebController {
         return "sessionDetails";
     }
 
-    @GetMapping("/get-one-doctor/{id}") /// mapping to open patient details
+    @GetMapping("/get-one-doctor/{id}") /// mapping to open doctor details
     public String getOneDoctor(Model model, @ModelAttribute DoctorModel doctorModel, @PathVariable("id") int id) {
         if (currentPatient == null){
             return "redirect:/plogin";
@@ -293,7 +282,7 @@ public class WebController {
 
         return "showPatient";
     }
-    @GetMapping("/get-one-session/{id}") /// mapping to open patient details
+    @GetMapping("/get-one-session/{id}") /// mapping to open session details
     public String getOneSession(Model model, @ModelAttribute SessionActualDTO sessionActualDTO, @PathVariable("id") int id) {
         if (currentDoctor == null){
             return "redirect:/dlogin";
@@ -301,6 +290,7 @@ public class WebController {
         model.addAttribute("sessionCurrent", doctorClient.getSessionById(id).block());
         model.addAttribute("sessionModel", new SessionActualDTO());
         model.addAttribute("doctorname", currentDoctor);
+        model.addAttribute("patients", patientClient.getAll());
 
         return "editSession";
     }
@@ -312,6 +302,7 @@ public class WebController {
         model.addAttribute("sessionCurrent", doctorClient.getSessionByDoctorAndName(doctor, name).block());
         model.addAttribute("sessionModel", new SessionActualDTO());
         model.addAttribute("doctorname", currentDoctor);
+        model.addAttribute("patients", patientClient.getAll());
 
         return "editSession";
     }
