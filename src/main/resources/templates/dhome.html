@@ -9,60 +9,38 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="p-3 m-0 border-0 bd-example">
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/home"><span style="color: green;">H</span>S D</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/dhome">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/create-session">New Session</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/dprofile">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/dabout">About developer</a>
-                    </li>
-                </ul>
-                <span class="navbar-text">
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/home"><span style="color: green;">H</span>S D</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/dhome">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/create-session">New Session</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/dprofile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/dabout">About developer</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
                 <div th:text = "'Welcome to hospital system, ' + ${doctorname.name}"></div>
               </span>
-                <form class="d-flex" role="search">
-                    <a class="btn btn-outline-success" href="/dlogout">Log out</a>
-                </form>
-            </div>
+            <form class="d-flex" role="search">
+                <a class="btn btn-outline-success" href="/dlogout">Log out</a>
+            </form>
         </div>
-    </nav>
-<div class="container mt-4">
-    <div class="card">
-
-        <div class="card-body">
-            <h5 class="card-title">Profile</h5>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><b>Doctor ID:</b>
-                <div id="did" th:text="${doctorname.did} "></div>
-            </li>
-            <li class="list-group-item"><b>Name:</b>
-                <div id="name" th:text="${doctorname.name} "></div>
-            </li>
-
-            <li class="list-group-item"><b>Surname:</b>
-                <div id="surname" th:text="${doctorname.surname}"></div>
-            </li>
-
-            <li class="list-group-item"><b>Specialization:</b>
-                <div id="dtype" th:text="${doctorname.dType}"></div>
-            </li>
-        </ul>
-
     </div>
+</nav>
+<div class="container mt-4">
+    <h2>Sessions</h2>
 </div>
 <div class="container overflow-hidden text-center mt-4">
     <div class="row gy-5">
@@ -73,7 +51,7 @@
                 <td id="snameh">Session Name</td>
                 <td id="sdateh">Session planned start Time</td>
                 <td id="sdate1h">Session planned end Time</td>
-                <td id="spatienth">Patient</td>
+                <td id="spatienth1">Patient</td>
                 <td id="spatienth">Edit</td>
                 </thead>
                 <tbody>
@@ -82,13 +60,103 @@
                     <td id ="stimes1" th:text="${sess.plannedStart}"></td>
                     <td id ="stimee2" th:text="${sess.plannedEnd}"></td>
                     <td><div>
-                       <form action="#" method="get" th:action="@{/get-one-patient/{id}(id = ${sess.patient})}" th:object="${sess}">
+                        <form action="#" method="get" th:action="@{/get-one-patient/{id}(id = ${sess.patient})}" th:object="${sess}">
                             <div><button class="btn btn-primary btn-sm" type="submit">View</button></div>
                         </form>
                     </div></td>
                     <td><div>
                         <form action="#" method="get" th:action="@{/get-one-session-name/{doctor}/{name}(doctor = ${sess.doctor}, name = ${sess.name})}" th:object="${sess}">
                             <div><button class="btn btn-info btn-sm" type="submit">Edit</button></div>
+                        </form>
+                    </div></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="container mt-4">
+    <h2>Pending Requests</h2>
+</div>
+<div class="container overflow-hidden text-center mt-4">
+    <div class="row gy-5">
+        <div class="container">
+            <input type="text"  class="form-control"  placeholder="Search.." id="myInput" onkeyup="myFunction()">
+            <table class="table" id="eventTable">
+                <thead>
+                <td id="snameh">Request Name</td>
+                <td id="sdateh">Patient</td>
+                <td id="sdate1h">Session planned start Time</td>
+                <td id="sdate1h">Session planned end Time</td>
+                <td id="spatienth">Accept</td>
+                <td id="spatienth">Reject</td>
+                </thead>
+                <tbody>
+                <tr th:each="request: ${pending-requests}">
+                    <td id ="sname" th:text="${request.name}"></td>
+                    td><div>
+                    <form action="#" method="get" th:action="@{/get-one-patient-by-id/{id}(id = ${request.patientId})}" th:object="${request}">
+                        <div><button class="btn btn-primary btn-sm" type="submit">View</button></div>
+                    </form>
+                </div></td>
+                    <td id ="stimes1" th:text="${request.plannedStart}"></td>
+                    <td id ="stimee2" th:text="${request.plannedEnd}"></td>
+                    <td><div>
+                        <form action="#" method="get" th:action="@{/accept-one-request/{id}(id = ${request.request_id})}" th:object="${request}">
+                            <div><button class="btn btn-info btn-sm" type="submit">Accept</button></div>
+                        </form>
+                    </div></td>
+                    <td><div>
+                        <form action="#" method="get" th:action="@{/reject-one-request/{id}(id = ${request.request_id})}" th:object="${request}">
+                            <div><button class="btn btn-danger btn-sm" type="submit">Reject</button></div>
+                        </form>
+                    </div></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="container mt-4">
+    <h2>Rejected Requests</h2>
+</div>
+<div class="container overflow-hidden text-center mt-4">
+    <div class="row gy-5">
+        <div class="container">
+            <input type="text"  class="form-control"  placeholder="Search.." id="myInput" onkeyup="myFunction()">
+            <table class="table" id="eventTable">
+                <thead>
+                <td id="snameh">Request Name</td>
+                <td id="sdateh">Patient</td>
+                <td id="sdate1h">Session planned start Time</td>
+                <td id="sdate1h">Session planned end Time</td>
+                <td id="spatienth">Accept</td>
+                <td id="spatienth">Reject</td>
+                </thead>
+                <tbody>
+                <tr th:each="request: ${rejected-requests}">
+                    <td id ="sname" th:text="${request.name}"></td>
+                    td><div>
+                    <form action="#" method="get" th:action="@{/get-one-patient-by-id/{id}(id = ${request.patientId})}" th:object="${request}">
+                        <div><button class="btn btn-primary btn-sm" type="submit">View</button></div>
+                    </form>
+                </div></td>
+                    <td id ="stimes1" th:text="${request.plannedStart}"></td>
+                    <td id ="stimee2" th:text="${request.plannedEnd}"></td>
+                    <td><div>
+                        <form action="#" method="get" th:action="@{/accept-one-request/{id}(id = ${request.request_id})}" th:object="${request}">
+                            <div><button class="btn btn-info btn-sm" type="submit">Accept</button></div>
+                        </form>
+                    </div></td>
+                    <td><div>
+                        <form action="#" method="get" th:action="@{/reject-one-request/{id}(id = ${request.request_id})}" th:object="${request}">
+                            <div><button class="btn btn-danger btn-sm" type="submit">Reject</button></div>
                         </form>
                     </div></td>
                 </tr>
@@ -122,14 +190,14 @@
         for (i = 0; i < tr.length; i++) {
 
             td = tr[i].getElementsByTagName("td")[1];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
                 }
+            }
         }
     }
 </script>
@@ -140,3 +208,4 @@
 </script>
 </body>
 </html>
+`
