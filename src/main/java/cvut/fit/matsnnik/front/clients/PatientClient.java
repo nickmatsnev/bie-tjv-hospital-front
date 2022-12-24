@@ -85,5 +85,12 @@ public class PatientClient {
                 .bodyToFlux(SessionActualDTO.class).toIterable();
     }
 
+    public Mono<PatientModel> getById(Integer id){
+        return webClient.get()
+                .uri("patients/{pid}", id)
+                .retrieve()
+                .bodyToMono(PatientModel.class);
+    }
+
 
 }

@@ -6,15 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
-  <title>HospitalSystem</title>
+  <title>Add session</title>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body class="p-3 m-0 border-0 bd-example">
-
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/home"><span style="color: green;">H</span>S P</a>
+    <a class="navbar-brand" href="/phome"><span style="color: green;">H</span>S P</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -27,32 +26,33 @@
           <a class="nav-link" aria-current="page" href="/pprofile">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/pabout">About developer</a>
+          <a class="nav-link " aria-current="page" href="/pabout">About developer</a>
         </li>
-
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/create-request">Create request</a>
+          <a class="nav-link active" aria-current="page" href="/create-request">Create request</a>
         </li>
       </ul>
       <span class="navbar-text">
-            <div th:text = "'Welcome to HospitalSystem, ' + ${patient.name}"></div>
-          </span>
+                  <div th:text = "'Welcome to HospitalSystem, ' + ${currentPatient.name}"></div>
+                </span>
       <form class="d-flex" role="search">
         <a class="btn btn-outline-success" href="/plogout">Log out</a>
       </form>
     </div>
   </div>
 </nav>
-<div class="container text-center mt-4">
-  <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-    <div class="col">
-      <div class="card border-success mb-3" style="max-width: 18rem;">
-        <div class="card-header bg-transparent border-success">Fool stuck</div>
-        <div class="card-body text-success">
-          <h5 class="card-title">Nikita Matsnev</h5>
-          <p class="card-text">bla bla about kikita</p>
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card bg-white mt-4">
+        <div class="card-body p-5">
+
+          <h1 th:text = "${requestModel} + ' is request!'"></h1>
+
+          <form method="get" action="/create-request">
+            <div><button class="btn btn-secondary" id ="signupButton" type="submit">go back</button></div>
+          </form>
         </div>
-        <div class="card-footer bg-transparent border-success">matsnnik@cvut.cz</div>
       </div>
     </div>
   </div>
@@ -71,3 +71,4 @@
         crossorigin="anonymous"></script>
 <!-- End of Bootstrap script -->
 </body>
+

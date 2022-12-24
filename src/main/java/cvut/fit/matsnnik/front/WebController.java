@@ -75,6 +75,8 @@ public class WebController {
         model.addAttribute("doctorname", currentDoctor);
         model.addAttribute("sessions", sessionsWTime);
         model.addAttribute("allPatients", patientClient.getAll());
+        model.addAttribute("pendingrequests", doctorClient.getPendingRequestsByDoctorId(currentDoctor.getDid()));
+        model.addAttribute("rejectedrequests", doctorClient.getRejectedRequestsByDoctorId(currentDoctor.getDid()));
         return "dhome";
     }
     @GetMapping("/dlogout") /// mapping to log out from the system
@@ -92,6 +94,8 @@ public class WebController {
 
         model.addAttribute("patient", currentPatient);
         model.addAttribute("sessions", sessionsWTime);
+        model.addAttribute("pendingrequests", doctorClient.getPendingRequestsByPatientId(currentPatient.getPid()));
+        model.addAttribute("rejectedrequests", doctorClient.getRejectedRequestsByPatientId(currentPatient.getPid()));
         return "phome";
     }
 
@@ -319,5 +323,47 @@ public class WebController {
         return "sessionUpdated";
     }
 
+    @GetMapping("/get-one-patient-by-id/{id}")
+    public String getOnePatient(Model model, @PathVariable("id") Integer id){
+        model.addAttribute("doctorname", currentDoctor);
+        model.addAttribute(patientClient.getById(id));
+        return "sessionDetails";
+    }
+    @GetMapping("/accept-request/{name}/{doctor}/{patient}")
+    public String acceptRequest(Model model, @PathVariable("name") String name, @PathVariable("doctor") Integer doctorId, @PathVariable("patient") Integer patientId){
+        model.addAttribute("doctorname", currentDoctor);
+        model.addAttribute(doctorClient.acceptRequest(name, doctorId, patientId).block());
+        return "redirect:/dhome";
+    }
+    @GetMapping("/reject-request/{name}/{doctor}/{patient}")
+    public String rejectRequest(Model model, @PathVariable("name") String name, @PathVariable("doctor") Integer doctorId, @PathVariable("patient") Integer patientId){
+        model.addAttribute("doctorname", currentDoctor);
+        model.addAttribute(doctorClient.rejectRequest(name, doctorId, patientId).block());
+        return "redirect:/dhome";
+    }
+    @GetMapping("/create-request") /// get mapping to get html for location creation page
+    public String addRequestRender(Model model) {
+        if (currentPatient == null){
+            return "redirect:/plogin";
+        }
+        model.addAttribute("currentPatient", currentPatient);
+        /// create a new Location Model to fill it in
+        model.addAttribute("requestModel", new RequestModel());
+        model.addAttribute("doctors", doctorClient.getAll());
+        return "createRequest";
+    }
+
+
+    @PostMapping("/create-request") /// post mapping to pass the location model to the server
+    public String addRequestSubmit(Model model, @ModelAttribute RequestModel requestModel) {
+        if (currentPatient == null){
+            return "redirect:/plogin";
+        }
+        model.addAttribute("currentPatient", currentPatient);
+        /// passing the model to the createLocation in UserClient
+        model.addAttribute("requestModel", doctorClient.createRequest(requestModel).block());
+        model.addAttribute("doctors", doctorClient.getAll());
+        return "requestCreated";
+    }
 
 }
