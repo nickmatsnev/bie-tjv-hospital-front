@@ -119,4 +119,74 @@ public class DoctorClient {
                 )
                 .bodyToMono(String.class);
     }
+
+    public Mono<String> createRequest(RequestModel requestModel){
+        return webClient.post()
+                .uri("/requests/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(requestModel)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+    }
+    public Mono<RequestModel> getRequestById(Integer requestId){
+        return webClient.get()
+                .uri("/requests/{id}", requestId)
+                .retrieve()
+                .bodyToMono(RequestModel.class);
+    }
+    public Iterable<RequestModel> getPendingRequestsByDoctorId(Integer doctorId){
+        return webClient.get()
+                .uri("/requests/pending/doctor/{id}", doctorId)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(RequestModel.class).toIterable();
+    }
+    public Iterable<RequestModel> getRejectedRequestsByDoctorId(Integer doctorId){
+        return webClient.get()
+                .uri("/requests/rejected/doctor/{id}", doctorId)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(RequestModel.class).toIterable();
+    }
+    public Iterable<RequestModel> getPendingRequestsByPatientId(Integer patientId){
+        return webClient.get()
+                .uri("/requests/pending/patient/{id}", patientId)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(RequestModel.class).toIterable();
+    }
+    public Iterable<RequestModel> getRejectedRequestsByPatientId(Integer patientId){
+        return webClient.get()
+                .uri("/requests/rejected/patient/{id}", patientId)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(RequestModel.class).toIterable();
+    }
+
+    public Mono<String>  acceptRequest(String name, Integer doctorId, Integer patientId){
+        return webClient.get()
+                .uri("/requests/accept/{name}/{doctor}/{patient}", name, doctorId, patientId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> rejectRequest(String name, Integer doctorId, Integer patientId){
+        return webClient.get()
+                .uri("/requests/reject/{name}/{doctor}/{patient}", name, doctorId, patientId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Iterable<DoctorModel> getAll(){
+        return webClient.get()
+                .uri("/doctors/all")
+                .retrieve()
+                .bodyToFlux(DoctorModel.class).toIterable();
+    }
+
 }

@@ -95,22 +95,23 @@
                 <td id="spatienth">Reject</td>
                 </thead>
                 <tbody>
-                <tr th:each="request: ${pending-requests}">
-                    <td id ="sname" th:text="${request.name}"></td>
-                    td><div>
-                    <form action="#" method="get" th:action="@{/get-one-patient-by-id/{id}(id = ${request.patientId})}" th:object="${request}">
-                        <div><button class="btn btn-primary btn-sm" type="submit">View</button></div>
-                    </form>
-                </div></td>
-                    <td id ="stimes1" th:text="${request.plannedStart}"></td>
-                    <td id ="stimee2" th:text="${request.plannedEnd}"></td>
+                <tr th:each="request: ${pendingrequests}">
+                    <td id ="stimes1" th:text="${request.sessionName}"></td>
+                    <td id ="sname" th:text="${request.patientId}">
+                        <div>
+                            <form action="#" method="get" th:action="@{/get-one-patient-by-id/{id}(id = ${request.patientId})}" th:object="${request}">
+                                <div><button class="btn btn-primary btn-sm" type="submit">View</button></div>
+                            </form>
+                        </div></td>
+                    <td id ="stimes1" th:text="${request.startTime}"></td>
+                    <td id ="stimee2" th:text="${request.endTime}"></td>
                     <td><div>
-                        <form action="#" method="get" th:action="@{/accept-one-request/{id}(id = ${request.request_id})}" th:object="${request}">
+                        <form action="#" method="get" th:action="@{/accept-request/{name}/{doctor}/{patient}(name = ${request.sessionName}, doctor  = ${request.doctorId}, patient = ${request.patientId})}" th:object="${request}">
                             <div><button class="btn btn-info btn-sm" type="submit">Accept</button></div>
                         </form>
                     </div></td>
                     <td><div>
-                        <form action="#" method="get" th:action="@{/reject-one-request/{id}(id = ${request.request_id})}" th:object="${request}">
+                        <form action="#" method="get" th:action="@{/reject-request/{name}/{doctor}/{patient}(name = ${request.sessionName}, doctor  = ${request.doctorId}, patient = ${request.patientId})}" th:object="${request}">
                             <div><button class="btn btn-danger btn-sm" type="submit">Reject</button></div>
                         </form>
                     </div></td>
@@ -136,29 +137,18 @@
                 <td id="sdateh">Patient</td>
                 <td id="sdate1h">Session planned start Time</td>
                 <td id="sdate1h">Session planned end Time</td>
-                <td id="spatienth">Accept</td>
-                <td id="spatienth">Reject</td>
                 </thead>
                 <tbody>
-                <tr th:each="request: ${rejected-requests}">
-                    <td id ="sname" th:text="${request.name}"></td>
-                    td><div>
-                    <form action="#" method="get" th:action="@{/get-one-patient-by-id/{id}(id = ${request.patientId})}" th:object="${request}">
-                        <div><button class="btn btn-primary btn-sm" type="submit">View</button></div>
-                    </form>
-                </div></td>
-                    <td id ="stimes1" th:text="${request.plannedStart}"></td>
-                    <td id ="stimee2" th:text="${request.plannedEnd}"></td>
-                    <td><div>
-                        <form action="#" method="get" th:action="@{/accept-one-request/{id}(id = ${request.request_id})}" th:object="${request}">
-                            <div><button class="btn btn-info btn-sm" type="submit">Accept</button></div>
-                        </form>
-                    </div></td>
-                    <td><div>
-                        <form action="#" method="get" th:action="@{/reject-one-request/{id}(id = ${request.request_id})}" th:object="${request}">
-                            <div><button class="btn btn-danger btn-sm" type="submit">Reject</button></div>
-                        </form>
-                    </div></td>
+                <tr th:each="request: ${rejectedrequests}">
+                    <td id ="stimes1" th:text="${request.sessionName}"></td>
+                    <td id ="sname" th:text="${request.patientId}">
+                        <div>
+                            <form action="#" method="get" th:action="@{/get-one-patient-by-id/{id}(id = ${request.patientId})}" th:object="${request}">
+                                <div><button class="btn btn-primary btn-sm" type="submit">View</button></div>
+                            </form>
+                        </div></td>
+                    <td id ="stimes1" th:text="${request.startTime}"></td>
+                    <td id ="stimee2" th:text="${request.endTime}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -208,4 +198,3 @@
 </script>
 </body>
 </html>
-`

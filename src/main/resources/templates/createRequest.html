@@ -34,7 +34,7 @@
                 </li>
             </ul>
             <span class="navbar-text">
-                  <div th:text = "'Welcome to HospitalSystem, ' + ${patient.name}"></div>
+                  <div th:text = "'Welcome to HospitalSystem, ' + ${currentPatient.name}"></div>
                 </span>
             <form class="d-flex" role="search">
                 <a class="btn btn-outline-success" href="/plogout">Log out</a>
@@ -52,28 +52,28 @@
                         <p class=" mb-5">Please enter your problem, desired doctor and time of start and end.</p>
                         <div class="mb-3">
                             <label for="name" class="form-label ">What hurts?</label>
-                            <input  class="form-control"  id="name" name="name" type="text" placeholder="Enter the problem" required="required" autofocus th:field = "*{name}">
+                            <input  class="form-control"  id="name" name="name" type="text" placeholder="Enter the problem" required="required" autofocus th:field = "*{sessionName}">
                         </div>
                         <div class="mb-3">
                             <label for="plannedStart" class="form-label ">choose start time</label>
-                            <input class="form-control"  id="plannedStart" name="plannedStart" type="time"   placeholder="Start time" required="required" autofocus th:field = "*{plannedStart}">
+                            <input class="form-control"  id="plannedStart" name="plannedStart" type="time" step="1" placeholder="Start time" required="required" autofocus th:field = "*{startTime}">
                         </div>
                         <div class="mb-3">
                             <label for="plannedEnd" class="form-label ">choose end time</label>
-                            <input class="form-control"  id="plannedEnd" name="plannedEnd" type="time"   placeholder="planned End" required="required" autofocus th:field = "*{plannedEnd}">
+                            <input class="form-control"  id="plannedEnd" name="plannedEnd" type="time"  step="1" placeholder="planned End" required="required" autofocus th:field = "*{endTime}">
                         </div>
                         <div class="mb-3">
                             <label for="dropOperator" class="form-label ">choose doctor</label>
                             <div class="input-group">
-                                <select class="form-select" data-live-search="true"  th:field="*{doctor_id}" id="dropOperator"><!--th:field="*{patient.surname}" -->
+                                <select class="form-select" data-live-search="true"  th:field="*{doctorId}" id="dropOperator"><!-- th:text="${doctor.dType + ':' + doctor.name + ' ' + patients.surname}" -->
                                     <option value="0">Choose...</option>
-                                    <option th:each="doctor : ${doctors}" th:value ="${doctor.did}" th:text="${doctor.dType + ':' + doctor.name + ' ' + patients.surname}"></option>
+                                    <option th:each="doctor : ${doctors}" th:value="${doctor.did}" th:text="${doctor.dType} + ':' + ${doctor.name} + ' ' + ${doctor.surname}" ></option>
                                 </select>
                             </div>
                         </div>
                         <!--  th:value="${doctorname.did}"  th:text="${doctorname.did}" autofocus th:field = "*{doctor}"-->
-                        <select class="form-control" type hidden th:field="*{doctor}" id="drop">
-                            <option th:value ="${doctorname.did}">
+                        <select class="form-control" type hidden th:field="*{patientId}" id="drop">
+                            <option th:value ="${currentPatient.pid}">
                             </option>
                         </select>
 
@@ -85,6 +85,7 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
