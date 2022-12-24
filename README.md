@@ -68,4 +68,20 @@ PostgresSQL will be used, I have already created a schema. It has two many-to-ma
 * [Official Gradle documentation](https://docs.gradle.org)
 ## 4. Test
 junit tests
-
+## 5. Screenshots
+#### Login
+![Main Menu](screenshots/login.png)
+#### Registration
+![Main Menu](screenshots/reg.png)
+#### Main menu
+![Main Menu](screenshots/mainmenu.png)
+#### Session Request
+![Main Menu](screenshots/sessionRequest.png)
+#### Session Request with selected doctor
+![Main Menu](screenshots/sessionRequestDoctorSelected.png)
+#### Main Menu with request
+![Main Menu](screenshots/mainmenuAfterRequest.png)
+#### Doctor Main Menu with request
+![Main Menu](screenshots/doctormmainmenu.png)
+#### Doctor Main Menu, request is a session now
+![Main Menu](screenshots/doctormmainmenuAcceptedRequest.png)
