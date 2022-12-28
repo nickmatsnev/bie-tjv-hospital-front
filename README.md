@@ -1,5 +1,5 @@
 # Hospital System - front end
-## FIT CTU BIE-TJV 2022 semester project,
+## FIT CTU BIE-TJV 2022 semester project, ready for evaluation
 ### by Nikita Matsnev
 
 ## 1.  Description
