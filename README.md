@@ -34,6 +34,10 @@ Doctor will update the session, so the session will be updated as well as the pa
 Server will be implemented in Java Spring. I wil use `jdk18` and `Java 17`. Spring Web will be used
 to provide RestAPI.
 
+
+#### 1.4.1. How to run client server app
+Simply run `java build/libs/hospital-0.0.1-SNAPSHOT.jar` in the root directory. If it is not there, `run gradle build`.
+
 #### API Endpoints:
 ##### 1. Patients:
 `GET /patients/{id}` - gets patient by id \
@@ -59,6 +63,8 @@ to provide RestAPI.
 ### 1.5. Web client
 I am planning on using the Reactive Stack and Spring WebFlux, and I use it. I also use Thymeleaf for templating. And Seneca's letters for contemplating:D.
 
+#### 1.4.1. How to run client
+Simply run `java build/libs/hospital-0.0.1-SNAPSHOT.jar` in the root directory.
 ### 1.6. Database
 PostgresSQL will be used, I have already created a schema. It has two many-to-many relations.
 ![Scheme](databaseScheme.png)
