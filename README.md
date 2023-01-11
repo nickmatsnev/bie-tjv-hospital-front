@@ -1,6 +1,9 @@
 # Hospital System - front end
 ## FIT CTU BIE-TJV 2022 semester project, ready for evaluation
 ### by Nikita Matsnev
+[![version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://gitlab.fit.cvut.cz/matsnnik/tjvhospital) \
+[![version](https://img.shields.io/badge/pipeline-fixed-green.svg)](https://gitlab.fit.cvut.cz/matsnnik/tjvhospital) 
+
 
 ## 1.  Description
 #### 1.1. Domain
