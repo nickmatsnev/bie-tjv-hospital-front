@@ -38,8 +38,18 @@ Server will be implemented in Java Spring. I wil use `jdk18` and `Java 17`. Spri
 to provide RestAPI.
 
 
-#### 1.4.1. How to run client server app
-Simply run `java build/libs/hospital-0.0.1-SNAPSHOT.jar` in the root directory. If it is not there, `run gradle build`.
+#### 1.4.1. How to run server(Linux/Mac/WSL)
+
+Install Java 17
+```
+sudo apt install openjdk-17-jre-headless
+```
+Go to build/libs:
+```
+cd build/libs ; \
+java -jar hospital-0.0.1-SNAPSHOT.jar
+```
+It will run!
 
 #### API Endpoints:
 ##### 1. Patients:
