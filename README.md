@@ -104,3 +104,83 @@ junit tests
 ![Main Menu](screenshots/doctormmainmenu.png)
 #### Doctor Main Menu, request is a session now
 ![Main Menu](screenshots/doctormmainmenuAcceptedRequest.png)
+
+function renderAccordion() {
+            const accordionExample = document.getElementById("accordionExample");
+            accordionExample.innerHTML = "";
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const visibleItems = filteredItems.slice(start, end);
+
+            document.getElementById("accordionContainer").style.display = visibleItems.length ? "block" : "none";
+
+            visibleItems.forEach(item => {
+                accordionExample.innerHTML += `
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${item.id}">
+                                ${item.title}
+                            </button>
+                        </h2>
+                        <div id="collapse${item.id}" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                ${item.content}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            renderPagination();
+        }
+
+        function searchAccordion() {
+            const searchText = document.getElementById("search").value.trim().toLowerCase();
+            filteredItems = allItems.filter(item => item.content.toLowerCase().includes(searchText));
+            currentPage = 1;
+            renderAccordion();
+        }
+
+        function renderPagination() {
+            const pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+            const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+            if (totalPages <= 1) return;
+
+            const startPage = Math.max(1, currentPage - Math.floor(pagesToShow / 2));
+            const endPage = Math.min(totalPages, startPage + pagesToShow - 1);
+
+            pagination.innerHTML += `
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">«</a>
+                </li>
+            `;
+
+            for (let i = startPage; i <= endPage; i++) {
+                pagination.innerHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+                    </li>
+                `;
+            }
+
+            pagination.innerHTML += `
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">»</a>
+                </li>
+            `;
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderAccordion();
+        }
+
+        generateAccordionItems();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
